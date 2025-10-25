@@ -13,7 +13,6 @@ import Settings from './pages/Settings.jsx'
 import Auth from './pages/Auth.jsx'
 import RequireAuth from './components/RequireAuth.jsx'
 import GlobalAudioPlayer from './components/GlobalAudioPlayer.jsx'
-import FullscreenPlayer from './pages/FullscreenPlayer.jsx'
 import Immersive from './pages/Immersive.jsx'                  // ← add
 
 export default function App(){
@@ -27,7 +26,6 @@ export default function App(){
         {/* Public */}
         <Route path="/" element={<Landing />} />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/player" element={<FullscreenPlayer />} />
         <Route path="/immersive" element={<Immersive />} />     {/* ← new page */}
 
         {/* Legacy paths → redirect to single Auth page */}

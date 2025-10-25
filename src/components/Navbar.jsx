@@ -36,28 +36,6 @@ export default function Navbar(){
             <NavLink to="/auth" className={({isActive})=> isActive ? 'active': ''}>Sign in</NavLink>
           )}
 
-          {/* Player button */}
-          <Link
-            to="/player"
-            aria-label={track?.title ? `Open player: ${track.title}` : 'Open player'}
-            className="btn-ghost"
-            style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'6px 10px', borderRadius:8, marginLeft:8 }}
-            title={isPlaying ? 'Now Playing' : 'Open Player'}
-          >
-            {track?.cover ? (
-              <img src={track.cover} alt="" style={{width:24,height:24,borderRadius:6,objectFit:'cover'}} />
-            ) : (
-              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="currentColor" d="M9 18V5l11-2v13a4 4 0 1 1-2-3.465V7.3L11 8.8V18a4 4 0 1 1-2-3.464V18Z"/>
-              </svg>
-            )}
-            <span style={{whiteSpace:'nowrap', maxWidth:160, overflow:'hidden', textOverflow:'ellipsis'}}>
-              {track?.title ? track.title : 'Player'}
-            </span>
-            <span style={{fontSize:12, opacity:0.8}}>
-              {isPlaying ? '●' : '►'}
-            </span>
-          </Link>
 
           {/* Immersive page button */}
           <Link
