@@ -19,24 +19,22 @@ export default function Navbar(){
       <div className="navinner">
         <Link to="/" className="brand">
           <span style={{fontSize:26}}>🧚‍♀️</span>
-          <b>StoryCure</b>
+          <b>Lirra</b>
         </Link>
 
         <div className="navlinks">
           {isAuthed ? (
             <>
-              <NavLink to="/dashboard" className={({isActive})=> isActive ? 'active': ''}>Dashboard</NavLink>
-              <NavLink to="/new" className={({isActive})=> isActive ? 'active': ''}>New Story</NavLink>
-              <NavLink to="/library" className={({isActive})=> isActive ? 'active': ''}>Library</NavLink>
-              <NavLink to="/progress" className={({isActive})=> isActive ? 'active': ''}>Progress</NavLink>
-              <NavLink to="/settings" className={({isActive})=> isActive ? 'active': ''}>Settings</NavLink>
-              <button className="btn-ghost" onClick={onLogout}>Logout</button>
+                          <NavLink to="/library" className={({isActive})=> isActive ? 'active': ''}>My Library</NavLink>
+
+              <NavLink to="/new" className={({isActive})=> isActive ? 'active': ''}>Dear Diary</NavLink>
+              <NavLink to="/settings" className={({isActive})=> isActive ? 'active': ''}>Myself</NavLink>
             </>
           ) : (
             <NavLink to="/auth" className={({isActive})=> isActive ? 'active': ''}>Sign in</NavLink>
           )}
 
-
+          
           
         </div>
       </div>
