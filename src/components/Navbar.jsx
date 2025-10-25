@@ -37,19 +37,7 @@ export default function Navbar(){
           )}
 
 
-          {/* Immersive page button */}
-          <Link
-            to="/immersive"
-            aria-label="Open immersive view"
-            className="btn-ghost"
-            style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'6px 10px', borderRadius:8, marginLeft:8 }}
-            title="Immersive View"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-              <path fill="currentColor" d="M4 4h7v2H6v5H4V4Zm10 0h6v6h-2V6h-4V4ZM4 14h2v4h4v2H4v-6Zm14 0h2v6h-6v-2h4v-4Z"/>
-            </svg>
-            <span>Immersive</span>
-          </Link>
+          
         </div>
       </div>
     </nav>

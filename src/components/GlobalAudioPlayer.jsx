@@ -12,6 +12,29 @@ const fmt = (s=0) => {
 
 const LAST_PATH_KEY = 'immersive.prevPath'
 
+// Comic-book panels icon
+function ComicIcon({ size = 42, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="3" ry="3" fill="none" stroke={color} strokeWidth="2"/>
+      <line x1="3" y1="10" x2="21" y2="10" stroke={color} strokeWidth="2"/>
+      <line x1="12" y1="3" x2="12" y2="10" stroke={color} strokeWidth="2"/>
+      <path d="M8 14.5c0-.83.9-1.5 2-1.5h3c1.1 0 2 .67 2 1.5s-.9 1.5-2 1.5h-1l-1.2 1.2c-.2.2-.8.07-.8-.2V16h0c-1.1 0-2-.67-2-1.5Z" fill={color}/>
+    </svg>
+  )
+}
+
+// Close/X icon in the same rounded-square frame
+function CloseIcon({ size = 42, color = 'currentColor', strokeWidth = 2 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="3" ry="3" fill="none" stroke={color} strokeWidth={strokeWidth}/>
+      <line x1="7" y1="7" x2="17" y2="17" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round"/>
+      <line x1="17" y1="7" x2="7" y2="17" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round"/>
+    </svg>
+  )
+}
+
 export default function GlobalAudioPlayer() {
   const {
     track, queue, isPlaying, currentTime, duration, volume, loop, shuffle,
@@ -48,23 +71,20 @@ export default function GlobalAudioPlayer() {
     }
   }
 
-  // -------- inline styles (no external CSS) --------
+  // inline styles
   const colorAccent = '#22c55e'
   const sty = {
-    shell: {
-      position:'fixed', left:12, right:12, bottom:`calc(12px + env(safe-area-inset-bottom))`, zIndex:60,
-      background:'#101214', color:'#e5e7eb', border:'1px solid rgba(255,255,255,.08)',
-      borderRadius:20, boxShadow:'0 18px 60px rgba(0,0,0,.45)', overflow:'hidden'
-    },
-    inner: {
-      display:'grid',
-      gridTemplateColumns:'minmax(240px,28%) 1fr minmax(240px,28%)',
-      alignItems:'center', gap:20, padding:'14px 18px', minHeight:94
-    },
+    shell:{ position:'fixed', left:12, right:12, bottom:`calc(12px + env(safe-area-inset-bottom))`, zIndex:60,
+            background:'#101214', color:'#e5e7eb', border:'1px solid rgba(255,255,255,.08)',
+            borderRadius:20, boxShadow:'0 18px 60px rgba(0,0,0,.45)', overflow:'hidden' },
+    inner:{ display:'grid', gridTemplateColumns:'minmax(240px,28%) 1fr minmax(240px,28%)',
+            alignItems:'center', gap:20, padding:'14px 18px', minHeight:94 },
     left:{ display:'flex', alignItems:'center', gap:14, minWidth:0 },
-    cover:{ width:68, height:68, borderRadius:14, overflow:'hidden', background:'#1f2937', flex:'0 0 auto' },
+    cover:{ width:68, height:68, borderRadius:14, overflow:'hidden', background:'#1f2937', flex:'0 0 auto',
+            display:'grid', placeItems:'center' },
     coverImg:{ width:'100%', height:'100%', objectFit:'cover', display:'block' },
-    coverPh:{ width:'100%', height:'100%', display:'grid', placeItems:'center', color:'#64748b' },
+    coverBtn:{ width:'100%', height:'100%', display:'grid', placeItems:'center', color:'#e5e7eb',
+               background:'transparent', border:'none', cursor:'pointer', borderRadius:14 },
     meta:{ minWidth:0 },
     title:{ fontWeight:800, fontSize:'clamp(16px,2vw,22px)', color:'#f8fafc', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' },
     artist:{ marginTop:4, color:'#9fb0ba', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' },
@@ -75,17 +95,14 @@ export default function GlobalAudioPlayer() {
           background:'rgba(255,255,255,.07)', color:'#fff' },
     btnActive:{ boxShadow:`inset 0 0 0 2px ${colorAccent}` },
     btnPrimary:{ width:58, height:58, borderRadius:999, background:colorAccent, color:'#0b0f0c' },
-    svg22:{ width:22, height:22, display:'block' },
-    svg28:{ width:28, height:28, display:'block' },
-
+    svg22:{ width:22, height:22, display:'block' }, svg28:{ width:28, height:28, display:'block' },
     progress:{ display:'grid', gridTemplateColumns:'56px 1fr 56px', alignItems:'center', gap:12, width:'100%', maxWidth:720, margin:'0 auto' },
     time:{ textAlign:'center', color:'#9fb0ba', fontVariantNumeric:'tabular-nums' },
     bar:{ position:'relative', height:8, borderRadius:999, background:'rgba(255,255,255,.16)', cursor:'pointer', overflow:'hidden' },
     loaded:{ position:'absolute', left:0, top:0, bottom:0, background:'rgba(255,255,255,.28)' },
     played:{ position:'absolute', left:0, top:0, bottom:0, background:`linear-gradient(90deg, ${colorAccent}, #86efac)` },
-    knob:{ position:'absolute', right:0, top:'50%', transform:'translate(0,-50%)', width:14, height:14, borderRadius:999, background:'#fff',
-           boxShadow:`0 0 0 6px rgba(34,197,94,.18)` },
-
+    knob:{ position:'absolute', right:0, top:'50%', transform:'translate(0,-50%)', width:14, height:14, borderRadius:999,
+           background:'#fff', boxShadow:`0 0 0 6px rgba(34,197,94,.18)` },
     right:{ display:'flex', alignItems:'center', justifyContent:'flex-end', gap:12, minWidth:0 },
     volumeBox:{ display:'flex', alignItems:'center', gap:8, padding:'6px 10px', borderRadius:12, background:'rgba(255,255,255,.06)' },
     vol:{ width:'clamp(140px, 22vw, 240px)' },
@@ -98,11 +115,20 @@ export default function GlobalAudioPlayer() {
         {/* Left: cover + meta */}
         <div style={sty.left}>
           <div style={sty.cover}>
-            {track?.cover
-              ? <img src={track.cover} alt="" style={sty.coverImg} />
-              : <div aria-hidden="true" style={sty.coverPh}>
-                  <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 3a9 9 0 100 18 9 9 0 000-18Zm1 13H8v-2h5v2Zm3-4H8V8h8v4Z"/></svg>
-                </div>}
+            {track?.cover ? (
+              <img src={track.cover} alt="" style={sty.coverImg} />
+            ) : (
+              // Button toggles immersive; shows Comic on normal pages, Close (X) on immersive
+              <button
+                onClick={toggleImmersive}
+                aria-pressed={immersiveOpen}
+                aria-label={immersiveOpen ? 'Close immersive view' : 'Open immersive view'}
+                title={immersiveOpen ? 'Close immersive view' : 'Open immersive view'}
+                style={sty.coverBtn}
+              >
+                {immersiveOpen ? <CloseIcon size={44} /> : <ComicIcon size={44} />}
+              </button>
+            )}
           </div>
           <div style={sty.meta}>
             <div style={sty.title} title={track?.title || 'Nothing playing'}>{track?.title || 'Nothing playing'}</div>
@@ -113,42 +139,28 @@ export default function GlobalAudioPlayer() {
         {/* Center: controls + progress */}
         <div style={sty.center}>
           <div style={sty.controls}>
-            <button
-              style={{...sty.btn, ...(shuffle ? sty.btnActive : null)}}
-              onClick={()=>setShuffle(!shuffle)}
-              title="Shuffle (S)"
-            >
+            <button style={{...sty.btn, ...(shuffle ? sty.btnActive : null)}} onClick={()=>setShuffle(!shuffle)} title="Shuffle (S)">
               <svg viewBox="0 0 24 24" style={sty.svg22}><path fill="currentColor" d="M17 3h4v4h-2V5h-2V3ZM3 7h5.17l8 8H21v2h-5.17l-8-8H3V7Zm0 10h4v2H3v-2Zm14-4h4v4h-2v-2h-2v-2Z"/></svg>
             </button>
-
             <button style={sty.btn} onClick={prev} title="Previous">
               <svg viewBox="0 0 24 24" style={sty.svg22}><path fill="currentColor" d="M6 6h2v12H6V6Zm3.5 6 8.5 6V6l-8.5 6Z"/></svg>
             </button>
-
             <button style={{...sty.btn, ...sty.btnPrimary}} onClick={toggle} title="Play/Pause (Space)">
-              {isPlaying ? (
-                <svg viewBox="0 0 24 24" style={sty.svg28}><path fill="currentColor" d="M6 5h4v14H6V5Zm8 0h4v14h-4V5Z"/></svg>
-              ) : (
-                <svg viewBox="0 0 24 24" style={sty.svg28}><path fill="currentColor" d="M8 5v14l11-7L8 5Z"/></svg>
-              )}
+              {isPlaying
+                ? <svg viewBox="0 0 24 24" style={sty.svg28}><path fill="currentColor" d="M6 5h4v14H6V5Zm8 0h4v14h-4V5Z"/></svg>
+                : <svg viewBox="0 0 24 24" style={sty.svg28}><path fill="currentColor" d="M8 5v14l11-7L8 5Z"/></svg>
+              }
             </button>
-
             <button style={sty.btn} onClick={next} title="Next">
               <svg viewBox="0 0 24 24" style={sty.svg22}><path fill="currentColor" d="M18 6h-2v12h2V6Zm-3.5 6L6 18V6l8.5 6Z"/></svg>
             </button>
-
-            <button
-              style={{...sty.btn, ...(loop ? sty.btnActive : null)}}
-              onClick={()=>setLoop(!loop)}
-              title="Repeat (L)"
-            >
+            <button style={{...sty.btn, ...(loop ? sty.btnActive : null)}} onClick={()=>setLoop(!loop)} title="Repeat (L)">
               <svg viewBox="0 0 24 24" style={sty.svg22}><path fill="currentColor" d="M7 7h7V5H7a5 5 0 0 0 0 10h2v-2H7a3 3 0 1 1 0-6Zm10 0h-2v2h2a3 3 0 1 1 0 6h-7v2h7a5 5 0 0 0 0-10Z"/></svg>
             </button>
           </div>
 
           <div style={sty.progress}>
             <div style={sty.time}>{fmt(currentTime)}</div>
-
             <div
               ref={barRef}
               onClick={onSeek}
@@ -166,15 +178,16 @@ export default function GlobalAudioPlayer() {
                 <div style={sty.knob} />
               </div>
             </div>
-
             <div style={sty.time}>{fmt(duration)}</div>
           </div>
         </div>
 
-        {/* Right: volume + immersive toggle + queue */}
+        {/* Right: volume + queue (video button removed) */}
         <div style={sty.right}>
           <div style={sty.volumeBox}>
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M5 15v-6h4l5-5v16l-5-5H5Z"/></svg>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path fill="currentColor" d="M5 15v-6h4l5-5v16l-5-5H5Z"/>
+            </svg>
             <input
               type="range" min="0" max="1" step="0.01"
               value={volume}
@@ -184,20 +197,10 @@ export default function GlobalAudioPlayer() {
             />
           </div>
 
-          <button
-            onClick={toggleImmersive}
-            title={immersiveOpen ? 'Close Immersive' : 'Open Immersive'}
-            aria-pressed={immersiveOpen}
-            aria-label={immersiveOpen ? 'Close immersive player' : 'Open immersive player'}
-            style={{...sty.btn, ...(immersiveOpen ? sty.btnActive : null)}}
-          >
-            <svg viewBox="0 0 24 24" style={sty.svg22} aria-hidden="true">
-              <path fill="currentColor" d="M3 6a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v2.5l4-2.5v12l-4-2.5V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Z"/>
-            </svg>
-          </button>
-
           <div title="Queue" style={sty.queue}>
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 7h14v2H3V7Zm0 4h14v2H3v-2Zm0 4h10v2H3v-2Zm16-8h2v10h-2V7Z"/></svg>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path fill="currentColor" d="M3 7h14v2H3V7Zm0 4h14v2H3v-2Zm0 4h10v2H3v-2Zm16-8h2v10h-2V7Z"/>
+            </svg>
             <span>{queue.length}</span>
           </div>
         </div>
