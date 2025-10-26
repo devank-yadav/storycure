@@ -13,7 +13,7 @@ export default function Auth() {
   const [sending, setSending] = useState(false)
   const nav = useNavigate()
   const loc = useLocation()
-  const next = loc.state?.from?.pathname || '/dashboard'
+  const next = loc.state?.from?.pathname || '/library'
 
   const sendCode = async (e) => {
     e?.preventDefault?.()
@@ -34,8 +34,14 @@ export default function Auth() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error('No session after OTP')
       const { count } = await supabase.from('children').select('id', { head: true, count: 'exact' })
-      if ((count ?? 0) === 0) nav('/onboarding', { replace: true })
-      else nav(next, { replace: true })
+      const isNewUser = (count ?? 0) === 0
+      if (isNewUser) {
+        // First-time users land on Settings to finish configuring their account
+        nav('/settings', { replace: true })
+      } else {
+        // Existing users head back to the page they originally requested
+        nav(next, { replace: true })
+      }
     } catch (e) { setErr(e.message || 'Invalid or expired code') }
     finally { setSending(false) }
   }
