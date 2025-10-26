@@ -64,37 +64,10 @@ export default function Library() {
                   <h3 className="h2" style={{ fontSize: 18 }}>
                     {s.title}
                   </h3>
-                  <p className="p">Created {s.createdAt}</p>
+                  <p className="p"style={{ fontSize: 10 }} >Created on {s.createdAt}</p>
 
                   <div className="row" style={{ marginTop: 'auto', paddingTop: '12px' }}>
-                    <Link
-                      className="btn"
-                      to={`/story/${s.id}`}
-                      style={{
-                        background: 'var(--secondary)',
-                        color: 'var(--ink)',
-                        boxShadow: '0 4px 0 #E6B800',
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        padding: '10px 16px',
-                        borderRadius: '12px',
-                        transition: 'all 0.2s ease',
-                        textDecoration: 'none',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.transform = 'translateY(-1px)'
-                        e.target.style.boxShadow = '0 6px 0 #E6B800'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.transform = 'translateY(0)'
-                        e.target.style.boxShadow = '0 4px 0 #E6B800'
-                      }}
-                    >
-                      📖 Read
-                    </Link>
+                    
                   </div>
 
                   <button
