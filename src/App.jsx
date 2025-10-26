@@ -14,6 +14,7 @@ import Auth from './pages/Auth.jsx'
 import RequireAuth from './components/RequireAuth.jsx'
 import GlobalAudioPlayer from './components/GlobalAudioPlayer.jsx'
 import Immersive from './pages/Immersive.jsx'                  // ← add
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export default function App(){
   const location = useLocation()

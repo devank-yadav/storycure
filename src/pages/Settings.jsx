@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
-import FairyMascot from '../components/FairyMascot'
 import { Bar } from 'react-chartjs-2'
 import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
@@ -35,8 +34,6 @@ export default function Settings(){
 
   return (
     <>
-      <FairyMascot style={{top: '300px', right: '130px', left: 'auto'}} />
-
       {/* Fixed logout button */}
       <div style={{
         position: 'fixed',
@@ -75,7 +72,13 @@ export default function Settings(){
       </div>
 
       {/* SETTINGS FORM */}
-      <div className="container" style={{maxWidth: '720px', marginTop: '0px', marginLeft:"100px", marginBottom: '100px'}}>
+      <div className="container" style={{
+          maxWidth: '720px',
+          marginTop: '0px',
+          alignContent: 'center',
+          marginBottom: '800px',
+          minHeight: '150vh'
+        }}>
         <div className="card" style={{padding: '20px 24px 16px'}}>
           <h2 className="h2">Settings</h2>
           <form className="form" onSubmit={save}>
